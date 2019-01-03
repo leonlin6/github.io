@@ -1,5 +1,5 @@
-{
-  "name": "redux-simple-starter",
+[{
+  "name": "WebaHomeWork",
   "version": "1.0.0",
   "description": "Simple starter package for Redux with React and Babel support",
   "main": "index.js",
@@ -42,3 +42,4 @@
     "test": "test"
   }
 }
+]
