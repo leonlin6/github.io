@@ -1,14 +1,118 @@
+
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/style/style.css">
-    <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/48938155eb24b4ccdde09426066869504c6dab3c/dist/css/bootstrap.min.css">
-    
-   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-  </head>
-  <body>
-    <div class="mainPage"></div>
-  </body>
-  <script src="./src/index.js"></script>
+<html lang="en">
+<head>
+    <base href="/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Document</title>
+  <style>
+    #box{
+      position: relative;
+      width: 300px;
+      margin: 0 auto;
+    }
+
+    #face{
+      background-image: url(assets/face.png);
+      background-size: cover;
+      width: 300px;
+      height: 300px;
+      position: absolute;
+    }
+
+    #eyeLeft{
+      background-image: url(assets/eye.png);
+      background-size: cover;
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      top: 90px;
+      left: 100px;
+    }
+
+    #eyeRight{
+      background-image: url(assets/eye.png);
+      background-size: cover;
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      top: 90px;
+      left: 190px;
+    }
+
+    #glass{
+      background-image: url(assets/glass.png);
+      background-size: cover;
+      width: 300px;
+      height: 300px;
+      position: absolute;
+    }
+  </style>
+</head>
+<body ng-app="myApp">
+    <app-root></app-root>
+  <div id="box">
+    <div id="face"></div>
+    <div id="eyeLeft"></div>
+    <div id="eyeRight"></div>
+    <div id="glass"></div>
+    <div id="log"></div>
+  </div>
+<script>
+'use strict';
+
+/*
+* author: 王乐平
+* blog: http://blog.csdn.net/lecepin
+* date:2017.7.17
+*/
+
+var eyeLeftPosition = {
+  start: [70, 78],
+  end: [100, 110]
+};
+
+var eyeRightPosition = {
+  start: [150, 78],
+  end: [190, 110]
+};
+
+var eyeLeftCenterPosition = {
+  x: (eyeLeftPosition.end[0] - eyeLeftPosition.start[0]) / 2 + eyeLeftPosition.start[0],
+  y: (eyeLeftPosition.end[1] - eyeLeftPosition.start[1]) / 2 + eyeLeftPosition.start[1]
+};
+
+var eyeRightCenterPosition = {
+  x: (eyeRightPosition.end[0] - eyeRightPosition.start[0]) / 2 + eyeRightPosition.start[0],
+  y: (eyeRightPosition.end[1] - eyeRightPosition.start[1]) / 2 + eyeRightPosition.start[1]
+};
+
+var r = 20;
+
+var eyeLeft = document.querySelector('#eyeLeft');
+var eyeRight = document.querySelector('#eyeRight');
+
+if (window.DeviceOrientationEvent) {
+
+  window.addEventListener('deviceorientation', function (event) {
+
+    let {alpha, beta, gamma} = event;
+
+    eyeLeft.style.left = eyeLeftCenterPosition.x + gamma / 90 * r + 'px';
+    eyeRight.style.left = eyeRightCenterPosition.x + gamma / 90 * r + 'px';
+    eyeLeft.style.top = eyeRight.style.top
+                      = eyeLeftCenterPosition.y + beta / 180 * r + 'px';
+
+    eyeRight.style.transform = eyeLeft.style.transform
+                         = eyeRight.style.WebkitTransform
+                         = eyeLeft.style.WebkitTransform
+                         = 'rotate(' + beta + 'deg)';
+  }, false);
+} else {
+  document.querySelector('body').innerHTML = '浏览器不支持DeviceOrientationEvent';
+}
+</script>
+</body>
 </html>
+
